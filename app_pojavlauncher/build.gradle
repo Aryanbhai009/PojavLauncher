@@ -229,3 +229,15 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith("process") && task.name.contains("Resources")) {
+        task.doFirst {
+            File stringsFile = file("src/main/res/values/strings.xml")
+            if (stringsFile.exists()) {
+                String content = stringsFile.getText("UTF-8")
+                content = content.replaceAll('<string name="([^"]+)">(.*?%.*?%.*?)</string>', '<string name="$1" formatted="false">$2</string>')
+                stringsFile.setText(content, "UTF-8")
+            }
+        }
+    }
+}
