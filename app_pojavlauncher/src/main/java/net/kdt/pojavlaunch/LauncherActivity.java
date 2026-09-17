@@ -60,11 +60,6 @@ public class LauncherActivity extends BaseActivity {
         checkNotificationPermission();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Safe null checks (No class symbol errors, no null crashes)
-        if (mSettingsButton != null && mSettingButtonListener != null) {
-            mSettingsButton.setOnClickListener(mSettingButtonListener);
-        }
-
         ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPressedListener);
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethodListener);
         ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, mLaunchGameListener);
@@ -72,14 +67,6 @@ public class LauncherActivity extends BaseActivity {
         new AsyncVersionList().getVersionList(versions -> ExtraCore.setValue(ExtraConstants.RELEASE_TABLE, versions), false);
 
         mInstallTracker = new ModloaderInstallTracker(this);
-
-        if (mProgressLayout != null) {
-            mProgressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT);
-            mProgressLayout.observe(ProgressLayout.UNPACK_RUNTIME);
-            mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
-            mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
-            mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);
-        }
     }
 
     private void bindViews() {
