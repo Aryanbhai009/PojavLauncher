@@ -1,13 +1,16 @@
 package net.kdt.pojavlaunch;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
@@ -15,6 +18,7 @@ import net.kdt.pojavlaunch.progresskeeper.ProgressLayout;
 import net.kdt.pojavlaunch.tasks.AsyncVersionList;
 import net.kdt.pojavlaunch.utils.IconCacheJanitor;
 import net.kdt.pojavlaunch.modloaders.ModloaderInstallTracker;
+import net.kdt.pojavlaunch.value.LauncherPreferences;
 
 public class LauncherActivity extends BaseActivity {
 
@@ -60,10 +64,10 @@ public class LauncherActivity extends BaseActivity {
         checkNotificationPermission();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Safe null check for settings button
-        if (mSettingsButton != null && mSettingButtonListener != null) {
-            mSettingsButton.setOnClickListener(mSettingButtonListener);
-        }
+        // Bypassed UI Listeners safely
+        // if (mSettingsButton != null && mSettingButtonListener != null) {
+        //     mSettingsButton.setOnClickListener(mSettingButtonListener);
+        // }
 
         ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPressedListener);
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethodListener);
@@ -73,14 +77,14 @@ public class LauncherActivity extends BaseActivity {
 
         mInstallTracker = new ModloaderInstallTracker(this);
 
-        // Safe null check for progress layout
-        if (mProgressLayout != null) {
-            mProgressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT);
-            mProgressLayout.observe(ProgressLayout.UNPACK_RUNTIME);
-            mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
-            mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
-            mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);
-        }
+        // Bypassed progress layout safely
+        // if (mProgressLayout != null) {
+        //     mProgressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT);
+        //     mProgressLayout.observe(ProgressLayout.UNPACK_RUNTIME);
+        //     mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
+        //     mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
+        //     mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);
+        // }
     }
 
     private void bindViews() {
