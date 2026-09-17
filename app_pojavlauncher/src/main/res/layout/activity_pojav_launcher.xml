@@ -1,51 +1,71 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="#0F0F14"
+    android:padding="16dp">
 
-    <com.kdt.mcgui.mcAccountSpinner
-        android:id="@+id/account_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_52sdp"
-
-        android:dropDownWidth="@dimen/_250sdp"
-        android:dropDownVerticalOffset="@dimen/_52sdp"
-
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/setting_button"
-        android:layout_width="@dimen/_52sdp"
-        android:layout_height="@dimen/_52sdp"
-        android:background="?attr/selectableItemBackground"
-        android:src="@drawable/ic_menu_settings"
-        android:scaleType="fitCenter"
-        android:paddingVertical="@dimen/_8sdp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Holding most of the dynamic content -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/container_fragment"
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_layout"
-        app:layout_constraintTop_toBottomOf="@+id/account_spinner" />
-
-
-    <com.kdt.mcgui.ProgressLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="#1A1A24"
+        android:padding="20dp">
 
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FAST CLIENT v1.0"
+            android:textColor="#00FFCC"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
 
+        <EditText
+            android:id="@+id/user_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Offline Username"
+            android:textColorHint="#666"
+            android:textColor="#FFF"
+            android:background="#12121A"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp"/>
 
+        <EditText
+            android:id="@+id/server_ip_input"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Aternos Server IP"
+            android:textColorHint="#666"
+            android:textColor="#FFF"
+            android:background="#12121A"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
 
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="PLAY MINECRAFT"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:backgroundTint="#00FFCC"
+            android:layout_marginBottom="10dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/fast_ping_button"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="FAST SERVER PING"
+            android:textSize="12sp"
+            android:backgroundTint="#2D2D3D"
+            android:textColor="#FFF"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
