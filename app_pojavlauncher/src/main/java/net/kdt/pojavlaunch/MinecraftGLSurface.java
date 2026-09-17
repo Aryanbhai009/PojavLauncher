@@ -86,6 +86,8 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
 
     public MinecraftGLSurface(Context context) {
         this(context, null);
+System.setProperty("pojav.renderer", "vulkan");
+System.setProperty("gl4es.resolution", "75");
     }
 
     public MinecraftGLSurface(Context context, AttributeSet attributeSet) {
