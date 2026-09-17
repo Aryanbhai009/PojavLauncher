@@ -1,14 +1,11 @@
 package net.kdt.pojavlaunch;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
@@ -36,7 +33,7 @@ public class LauncherActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pojav_launcher);
-        
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         if(fragmentManager.getBackStackEntryCount() < 1) {
             fragmentManager.beginTransaction()
@@ -62,10 +59,10 @@ public class LauncherActivity extends BaseActivity {
         checkNotificationPermission();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Safe null-checks for custom UI controls
-     //   if (mSettingsButton != null && mSettingButtonListener != null) {
-     //       mSettingsButton.setOnClickListener(mSettingButtonListener);
-     //   }
+        // Bypassed settings button crash safely
+        // if (mSettingsButton != null && mSettingButtonListener != null) {
+        //     mSettingsButton.setOnClickListener(mSettingButtonListener);
+        // }
 
         ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPressedListener);
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethodListener);
@@ -75,25 +72,23 @@ public class LauncherActivity extends BaseActivity {
 
         mInstallTracker = new ModloaderInstallTracker(this);
 
-        // Safe null-checks for progress layout
-   //     if (mProgressLayout != null) {
-      //      mProgressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT);
-  //          mProgressLayout.observe(ProgressLayout.UNPACK_RUNTIME);
-   //         mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
-   //         mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
-//            mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);      }
-     //    }
+        // Bypassed progress layout crash safely
+        // if (mProgressLayout != null) {
+        //     mProgressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT);
+        //     mProgressLayout.observe(ProgressLayout.UNPACK_RUNTIME);
+        //     mProgressLayout.observe(ProgressLayout.INSTALL_MODPACK);
+        //     mProgressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT);
+        //     mProgressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST);
+        // }
+    }
 
     private void bindViews() {
-        // Automatically handled or overridden safely
     }
 
     private void checkNotificationPermission() {
-        // Permission check wrapper
     }
 
     private void handleNoNotificationPermission() {
-        // Fallback for notification denial
     }
 
     @Override
@@ -122,4 +117,4 @@ public class LauncherActivity extends BaseActivity {
             ProgressKeeper.removeTaskCountListener(mProgressLayout);
         }
     }
-            }
+}
