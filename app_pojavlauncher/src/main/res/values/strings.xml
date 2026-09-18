@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources,StringFormatMatches">
     <!-- App name part -->
     <string name="app_name">Athleat Playz Fast Client</string>
     <string name="app_short_name">Athleat Fast</string>
