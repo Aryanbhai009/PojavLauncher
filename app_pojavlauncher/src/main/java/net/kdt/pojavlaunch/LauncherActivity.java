@@ -1,109 +1,63 @@
 package net.kdt.pojavlaunch;
 
-import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.FragmentManager;
+import androidx.annotation.Nullable;
 
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
+import net.kdt.pojavlaunch.fragments.MainMenuFragment;
+import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.ProgressLayout;
-import net.kdt.pojavlaunch.tasks.AsyncVersionList;
-import net.kdt.pojavlaunch.utils.IconCacheJanitor;
-import net.kdt.pojavlaunch.modloaders.ModloaderInstallTracker;
 
 public class LauncherActivity extends BaseActivity {
 
     private ActivityResultLauncher<String> mRequestNotificationPermissionLauncher;
     private Runnable mRequestNotificationPermissionRunnable;
-    private NotificationManager mNotificationManager;
-    private ModloaderInstallTracker mInstallTracker;
-
-    private View mSettingsButton;
-    private View.OnClickListener mSettingButtonListener;
-    private ExtraCore.ExtraListener mBackPressedListener;
-    private ExtraCore.ExtraListener mSelectAuthMethodListener;
-    private ExtraCore.ExtraListener mLaunchGameListener;
-    private ProgressLayout mProgressLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pojav_launcher);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if(fragmentManager.getBackStackEntryCount() < 1) {
-            fragmentManager.beginTransaction()
+        if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
+            getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .addToBackStack("ROOT")
-                    .add(R.id.container_fragment, MainMenuFragment.class, null, "ROOT").commit();
+                    .add(R.id.container_fragment, MainMenuFragment.class, null, "ROOT")
+                    .commit();
         }
 
-        IconCacheJanitor.runJanitor();
         mRequestNotificationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
-                isAllowed -> {
-                    if(!isAllowed) handleNoNotificationPermission();
-                    else {
-                        Runnable runnable = Tools.getWeakReference(mRequestNotificationPermissionRunnable);
-                        if(runnable != null) runnable.run();
+                isGranted -> {
+                    if (mRequestNotificationPermissionRunnable != null && isGranted) {
+                        mRequestNotificationPermissionRunnable.run();
+                        mRequestNotificationPermissionRunnable = null;
                     }
                 }
         );
-
-        getWindow().setBackgroundDrawable(null);
-        bindViews();
-        checkNotificationPermission();
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPressedListener);
-        ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethodListener);
-        ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, mLaunchGameListener);
-
-        new AsyncVersionList().getVersionList(versions -> ExtraCore.setValue(ExtraConstants.RELEASE_TABLE, versions), false);
-
-        mInstallTracker = new ModloaderInstallTracker(this);
     }
 
-    private void bindViews() {
-        mSettingsButton = findViewById(R.id.setting_button);
-        mProgressLayout = findViewById(R.id.progress_layout);
-    }
-
-    private void checkNotificationPermission() {
-    }
-
-    private void handleNoNotificationPermission() {
+    public void checkForNotificationPermission(Runnable onGranted) {
+        this.mRequestNotificationPermissionRunnable = onGranted;
+        if (mRequestNotificationPermissionLauncher != null) {
+            mRequestNotificationPermissionLauncher.launch("android.permission.POST_NOTIFICATIONS");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ContextExecutor.setActivity(this);
-        if(mInstallTracker != null) mInstallTracker.attach();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        ContextExecutor.clearActivity();
-        if(mInstallTracker != null) mInstallTracker.detach();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(mProgressLayout != null) {
-            ProgressKeeper.removeTaskCountListener(mProgressLayout);
-        }
     }
 }
